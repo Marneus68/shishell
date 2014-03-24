@@ -11,17 +11,17 @@ Shishell is still in active devellopement. Don't exect it to be your average ful
 Compilation and Installation
 ----------------------------
 
-Shishell only relies on the C standard library and uses the POSIX terminal interface. You can build the project by running
+Shishell only relies on the C standard library and uses the POSIX terminal interface. You can build the project by running:
     
     make
 
-and install it by running
+and install it by running:
 
     make install
 
 with *root privileges*.
 
-Once installed, shishell can be run by running
+Once installed, shishell can be run by running:
 
     shish
 
@@ -32,4 +32,4 @@ If you feel adventurous, you can set shishell as your default shell by running t
 License
 -------
 
-This project is under the GNU Lesser Genera Public License version 2.1. See [LICENSE.txt](LICENSE.txt) for more informations.  
+This project is under the GNU Lesser Genera Public License version 2.1. See [LICENSE.txt](./LICENSE.txt) for more informations.  
