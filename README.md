@@ -27,9 +27,20 @@ Once installed, shishell can be run by running:
 
 If you feel adventurous, you can set shishell as your default shell by running the following command:
 
-    sh -s /usr/bin/shish <username>
+    chsh -s /usr/bin/shish <username>
+
+Usage
+-----
+
+Shishell can be invoked with several command line parameters :
+    
+    -i or --input       : Starts Shishell in INPUT mode (default behaviour
+    -n or --normal      : Starts Shishell in NORMAL mode
+    -v or --verbose     : Makes Shishell's startup more verbose
+    -h or --help        : Prints the usage and help lines and exits
+    -V or --version     : Prints the program name and version and exits
 
 License
 -------
 
-This project is under the GNU Lesser Genera Public License version 2.1. See [LICENSE.txt](./LICENSE.txt) for more informations.  
+This project is under the GNU Lesser General Public License version 2.1. See [LICENSE.txt](LICENSE) for more informations.  
