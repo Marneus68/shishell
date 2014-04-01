@@ -31,7 +31,8 @@ const char * getprompt(imode e_mode) {
 
 int main(int argc, const char *argv[])
 {
-    int c;
+    int c,
+        verbose = 0;
 
     imode mode = MODE_INSERT;
 
@@ -44,8 +45,6 @@ int main(int argc, const char *argv[])
             {0,    0,                       0,  0 }
     };
 
-    printf("Starting %s version %s ...\n", NAME, VERSION);
-
     if (!isatty(STDIN_FILENO)) {
         fprintf(stderr, "This program should be run in a proper tty session.\n");
         return EXIT_FAILURE;
@@ -56,19 +55,18 @@ int main(int argc, const char *argv[])
             topind = optind ? optind : 1,  
             i = 0;
         
-        if ((c = getopt_long(argc, argv, "nivhV", lopts, &optind)) == -1)
+        if ((c = getopt_long(argc, (char * const*)argv, "nivhV", lopts, &optind)) == -1)
             break;
 
         switch (c) {
             case 'n':
-                printf("Starting in NORMAL mode\n");
                 mode = MODE_NORMAL;
                 break;
             case 'i':
-                printf("Starting in INSERT mode\n");
                 mode = MODE_INSERT;
                 break;
             case 'v':
+                verbose = 1;
                 break;
             case 'h':
                 printf("%s - %s\n", NAME, VERSION);
@@ -93,12 +91,19 @@ int main(int argc, const char *argv[])
 
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
+    if (verbose) {
+        printf("Starting %s version %s", NAME, VERSION);
+        if (mode == MODE_NORMAL)
+            printf(" in NORMAL mode ");
+        else if (mode = MODE_INSERT)
+            printf(" in INSERT mode ");
+        printf("...\n");
+
+    }
+
     for(;;) {
         char *input = "";
-        /*
-        snprintf(   shell_prompt, sizeof(shell_prompt), "%s:%s $ ", 
-                    getenv("USER"), getcwd(NULL, 1024));
-        */
+
         foor:
 
         printf(getprompt(mode));
