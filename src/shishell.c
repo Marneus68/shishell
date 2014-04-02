@@ -13,6 +13,7 @@ int shishell(char* e_input) {
     char tmp;
     char** input = malloc(sizeof(char*));
     input[n-1] = malloc(sizeof(char));
+
     while ((tmp = e_input[cur_i]) == ' ') {
         cur_i++;
     }
@@ -22,11 +23,18 @@ int shishell(char* e_input) {
                 cur_w = 0; cur_i++;
                 if (e_input[cur_i+1] != ' ') {
                     n++;
-                    input[n-1] = malloc(sizeof(char));
+                    //input[n-1] = malloc(sizeof(char));
                 }
                 break;
             case '&':
-                
+                shiexec(input, EXMODE_BACKGR);
+                int j;
+                for (j = 0; j < n; j++) {
+                    free(input[j]);
+                }
+                cur_w = 0; cur_i++; n = 0;
+                input = realloc(input, sizeof(char*));
+                printf("background process created\n");
                 break;
             default:
                 input[n-1] = realloc(input[n-1], sizeof(char*)*cur_w+2);

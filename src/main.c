@@ -9,20 +9,15 @@
 #include "shishell.h"
 #include "constants.h"
 
-typedef enum imode {
-    MODE_NORMAL = 0,
-    MODE_INSERT = 1
-} imode;
-
 const char * PROMPT_EMPTY       = "  ";
 const char * PROMPT_INS_MODE    = "i ";
 const char * PROMPT_NOR_MODE    = "n ";
 
 const char * getprompt(imode e_mode) {
     switch(e_mode) {
-        case MODE_INSERT:
+        case INMODE_INSERT:
             return PROMPT_INS_MODE;
-        case MODE_NORMAL:
+        case INMODE_NORMAL:
             return PROMPT_NOR_MODE;
         default:
             return PROMPT_EMPTY;
@@ -34,7 +29,7 @@ int main(int argc, const char *argv[])
     int c,
         verbose = 0;
 
-    imode mode = MODE_INSERT;
+    imode mode = INMODE_INSERT;
 
     static struct option lopts[] = {
             {"normal",  no_argument,        0,  'n' },
@@ -60,10 +55,10 @@ int main(int argc, const char *argv[])
 
         switch (c) {
             case 'n':
-                mode = MODE_NORMAL;
+                mode = INMODE_NORMAL;
                 break;
             case 'i':
-                mode = MODE_INSERT;
+                mode = INMODE_INSERT;
                 break;
             case 'v':
                 verbose = 1;
@@ -93,12 +88,11 @@ int main(int argc, const char *argv[])
 
     if (verbose) {
         printf("Starting %s version %s", NAME, VERSION);
-        if (mode == MODE_NORMAL)
+        if (mode == INMODE_NORMAL)
             printf(" in NORMAL mode ");
-        else if (mode = MODE_INSERT)
+        else if (mode = INMODE_INSERT)
             printf(" in INSERT mode ");
         printf("...\n");
-
     }
 
     for(;;) {
@@ -109,7 +103,7 @@ int main(int argc, const char *argv[])
         printf(getprompt(mode));
         char c = getchar();
         for(;;) {
-            if (mode == MODE_NORMAL) {
+            if (mode == INMODE_NORMAL) {
                 switch (c) {
                     case '\b':
                     case 'h':
@@ -119,7 +113,7 @@ int main(int argc, const char *argv[])
                         printf("<FORWARD>");
                         break;
                     case 'i': // switch to INSERT MODE
-                        mode = MODE_INSERT;
+                        mode = INMODE_INSERT;
                         printf("\033[s\r%s\033[u", PROMPT_INS_MODE);
                         break;
                     case 'e':
@@ -134,7 +128,7 @@ int main(int argc, const char *argv[])
                     default:
                         break;
                 }
-            } else {
+            } else if (mode == INMODE_INSERT) {
                 switch (c) {
                     case '\b':
                         printf("<BACKSPACE>");
@@ -151,7 +145,7 @@ int main(int argc, const char *argv[])
                         goto foor;
                         break;
                     case 27: // switch to NORMAL MODE
-                        mode = MODE_NORMAL;
+                        mode = INMODE_NORMAL;
                         printf("\033[s\r%s\033[u", PROMPT_NOR_MODE);
                         break;
                     default:

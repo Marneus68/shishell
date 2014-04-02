@@ -1,6 +1,13 @@
 #ifndef __SHISHELL_H__
 #define __SHISHELL_H__
 
+/* input mode */
+typedef enum imode {
+    INMODE_NORMAL = 0,
+    INMODE_INSERT = 1
+} imode;
+
+/* execution monde */
 typedef enum emode {
     EXMODE_NORMAL = 0,
     EXMODE_BACKGR = 1
